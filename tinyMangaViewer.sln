@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tinyMangaViewer", "tinyMangaViewer\tinyMangaViewer.csproj", "{0A635BEF-B0DF-4427-92A3-D8BEF65E002F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformShell", "WinformShell\WinformShell.csproj", "{C8350398-FDFD-44E5-A6ED-8F177CB506D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A635BEF-B0DF-4427-92A3-D8BEF65E002F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A635BEF-B0DF-4427-92A3-D8BEF65E002F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A635BEF-B0DF-4427-92A3-D8BEF65E002F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A635BEF-B0DF-4427-92A3-D8BEF65E002F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8350398-FDFD-44E5-A6ED-8F177CB506D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8350398-FDFD-44E5-A6ED-8F177CB506D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8350398-FDFD-44E5-A6ED-8F177CB506D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8350398-FDFD-44E5-A6ED-8F177CB506D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D038086F-0429-4F94-BAA4-87DAA0215B36}
+	EndGlobalSection
+EndGlobal
