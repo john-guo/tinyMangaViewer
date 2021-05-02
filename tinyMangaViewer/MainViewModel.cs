@@ -14,6 +14,7 @@ using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace tinyMangaViewer
 {
@@ -35,9 +36,9 @@ namespace tinyMangaViewer
         public RelayCommand<DragEventArgs> DragOver { get; set; }
 
         private CompositionContainer container;
-        private IArchiveSource zip;
-        private ReadOnlyCollection<string> entries;
         public WindowStyle WindowStyle { get; set; }
+
+        private ArchiveSourceCache zip;
 
         [ImportMany]
         private IEnumerable<Lazy<IArchiveSource, IArchiveSourceData>> archiveSource { get; set; }
@@ -59,6 +60,8 @@ namespace tinyMangaViewer
 
         public MainViewModel()
         {
+            zip = new ArchiveSourceCache();
+
             WindowStyle = WindowStyle.SingleBorderWindow;
             DoImport();
 
@@ -106,7 +109,6 @@ namespace tinyMangaViewer
                 }
             });
 
-            Reset();
             if (!string.IsNullOrWhiteSpace(App.Argument))
             {
                 Open(App.Argument);
@@ -123,7 +125,7 @@ namespace tinyMangaViewer
             }
             set
             {
-                if (zip == null || value < 0 || value >= entries.Count || value == current)
+                if (zip == null || value < 0 || value >= zip.Count || value == current)
                     return;
                 current = value;
                 Display();
@@ -131,71 +133,41 @@ namespace tinyMangaViewer
             }
         }
 
-        private void Reset()
-        {
-            current = -1;
-            Entry = null;
-        }
-
         private void Open(string filename)
         {
-            if (zip != null)
-            {
-                zip.Close();
-                zip = null;
-            }
+            IArchiveSource source = null;
             foreach (var i in archiveSource)
             {
                 if (string.IsNullOrEmpty(i.Metadata.Extension) && Directory.Exists(filename))
                 {
-                    zip = i.Value;
+                    source = i.Value;
                     break;
                 }
                 if (string.Compare(i.Metadata.Extension, Path.GetExtension(filename), true) == 0)
                 {
-                    zip = i.Value;
+                    source = i.Value;
                     break;
                 }    
             }
-            if (zip == null)
+            if (source == null)
                 return;
 
-            Reset();
-            entries = Filter(zip.Open(filename));
+            zip.SetSource(source);
+            zip.Open(filename);
 
-            Count = entries.Count;
+            FileName = Path.GetFileNameWithoutExtension(filename);
+            Count = zip.Count;
+            current = -1;
             Current = 0;
         }
 
         private void Display()
         {
-            Entry = entries[Current];
-            using (var stream = zip.GetStream(Entry))
-            {
-                Image = BitmapFrame.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
-            }
+            Image = zip.GetImage(Current);
+            Entry = zip.Entry;
         }
 
-        private ReadOnlyCollection<string> Filter(IEnumerable<string> list)
-        {
-            var validEntries = list.Where(item => 
-                                WICHelper.Info.Value.Any(decoder => 
-                                    decoder.FileExtensions.Any(ext => 
-                                        string.Compare(Path.GetExtension(ext), Path.GetExtension(item), true) == 0)));
-
-            var sortedEntries = validEntries.OrderBy(name => Path.GetDirectoryName(name))
-                                    .ThenBy(name =>
-                                    {
-                                        if (int.TryParse(Path.GetFileNameWithoutExtension(name), out int i))
-                                        {
-                                            return i;
-                                        }
-                                        return int.MaxValue;
-                                    }).ThenBy(name => name);
-
-            return new ReadOnlyCollection<string>(sortedEntries.ToList());
-        }
-
+        public string FileName { get; set; }
         public string Entry { get; set; }
         public int Skip { get; set; }
         public int Count { get; set; }

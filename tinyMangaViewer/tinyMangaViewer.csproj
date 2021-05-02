@@ -120,6 +120,7 @@
     <Compile Include="AddOn\DirectoryArchiveSource.cs" />
     <Compile Include="AddOn\SevenZipArchiveSource.cs" />
     <Compile Include="AddOn\ZipArchiveSource.cs" />
+    <Compile Include="ArchiveSourceCache.cs" />
     <Compile Include="FullScreenBehavior.cs" />
     <Compile Include="IArchiveSource.cs" />
     <Compile Include="MouseGesture.cs" />
