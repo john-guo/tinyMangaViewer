@@ -60,8 +60,8 @@ namespace tinyMangaViewer
 
         public MainViewModel()
         {
+            current = -1;
             zip = new ArchiveSourceCache();
-
             WindowStyle = WindowStyle.SingleBorderWindow;
             DoImport();
 
