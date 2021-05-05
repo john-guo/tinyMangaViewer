@@ -18,8 +18,10 @@ namespace tinyMangaViewer
         private IArchiveSource _source;
         private ReadOnlyCollection<string> _entries;
         private const int _cacheNum = 5;
-        private const string _pattern = @"\d+";
-        private static readonly Regex _regex = new Regex(_pattern, RegexOptions.Compiled);
+        private const string _pattern1 = @"^\d+";
+        private const string _pattern2 = @"\d+$";
+        private static readonly Regex _regex1 = new Regex(_pattern1, RegexOptions.Compiled);
+        private static readonly Regex _regex2 = new Regex(_pattern2, RegexOptions.Compiled);
 
         public int Count => _entries.Count;
         public string Entry { get; set; }
@@ -151,7 +153,7 @@ namespace tinyMangaViewer
             var sortedEntries = validEntries.OrderBy(name => Path.GetDirectoryName(name))
                                     .ThenBy(name =>
                                     {
-                                        var match = _regex.Match(Path.GetFileNameWithoutExtension(name));
+                                        var match = _regex1.Match(Path.GetFileNameWithoutExtension(name));
                                         if (match.Success)
                                         {
                                             if (int.TryParse(match.Value, out int i))
@@ -159,7 +161,17 @@ namespace tinyMangaViewer
                                                 return i;
                                             }
                                         }
-
+                                        return int.MaxValue;
+                                    }).ThenBy(name =>
+                                    {
+                                        var match = _regex2.Match(Path.GetFileNameWithoutExtension(name));
+                                        if (match.Success)
+                                        {
+                                            if (int.TryParse(match.Value, out int i))
+                                            {
+                                                return i;
+                                            }
+                                        }
                                         return int.MaxValue;
                                     }).ThenBy(name => name);
 
