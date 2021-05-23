@@ -6,9 +6,15 @@
         xmlns:local="clr-namespace:tinyMangaViewer"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="{Binding Entry, StringFormat=MangaView - {0}, TargetNullValue=MangaView}" Height="838" Width="800" AllowDrop="True" Background="Black" WindowState="Maximized"
+        Height="838" Width="800" AllowDrop="True" Background="Black" WindowState="Maximized"
         WindowStyle="{Binding WindowStyle}"
         >
+    <Window.Title>
+        <MultiBinding StringFormat="MangaView {0} - {1}">
+            <Binding Path="FileName"/>
+            <Binding Path="Entry"/>
+        </MultiBinding>
+    </Window.Title>
     <Window.Resources>
         <ResourceDictionary>
             <local:ZeroOneIndexConverter x:Key="zoiConverter"/>
