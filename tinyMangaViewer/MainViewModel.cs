@@ -32,6 +32,8 @@ namespace tinyMangaViewer
         public RelayCommand Next { get; set; }
         public RelayCommand Maximize { get; set; }
 
+        public IFilter Filter { get; set; } = Filters.All[nameof(DigitFirstFilter)];
+
         public RelayCommand<DragEventArgs> Drop { get; set; }
         public RelayCommand<DragEventArgs> DragOver { get; set; }
 
@@ -61,7 +63,7 @@ namespace tinyMangaViewer
         public MainViewModel()
         {
             current = -1;
-            zip = new ArchiveSourceCache();
+            zip = new ArchiveSourceCache(() => Filter);
             WindowStyle = WindowStyle.SingleBorderWindow;
             DoImport();
 

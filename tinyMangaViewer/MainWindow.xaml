@@ -21,7 +21,9 @@
         </ResourceDictionary>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" Executed="CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" Executed="CloseWindow" />
+        <CommandBinding Command="{x:Static local:MainWindow.ZoomInCommand}" Executed="ZoomIn" />
+        <CommandBinding Command="{x:Static local:MainWindow.ZoomOutCommand}" Executed="ZoomOut" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="Space" Command="{Binding Next}"/>
@@ -33,6 +35,8 @@
         <MouseBinding MouseAction="RightClick" Command="{Binding Prev}"/>
         <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Down}" Command="{Binding Next}"/>
         <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Up}" Command="{Binding Prev}"/>
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.CtrlDown}" Command="{x:Static local:MainWindow.ZoomInCommand}"/>
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.CtrlUp}" Command="{x:Static local:MainWindow.ZoomOutCommand}"/>
     </Window.InputBindings>
     <i:Interaction.Behaviors>
         <local:EventCommandBehavior Event="PreviewDrop" Command="{Binding Drop}"/>
@@ -44,8 +48,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
-        <Image RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Source="{Binding Image}" Stretch="Uniform"/>
+        <Viewbox x:Name="viewbox" Stretch="Uniform">
+            <Image RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Source="{Binding Image}"/>
+        </Viewbox>
         <DockPanel Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+            <ComboBox ItemsSource="{x:Static local:Filters.All}" SelectedValue="{Binding Filter}" SelectedValuePath="Value" DisplayMemberPath="Key" />
             <TextBlock Margin="4" VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">

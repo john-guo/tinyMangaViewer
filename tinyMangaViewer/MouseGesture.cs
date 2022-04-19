@@ -11,6 +11,8 @@ namespace tinyMangaViewer
     {
         public static MouseWheelGesture Down => new MouseWheelGesture { Direction = WheelDirection.Down };
         public static MouseWheelGesture Up => new MouseWheelGesture { Direction = WheelDirection.Up };
+        public static MouseWheelGesture CtrlUp => new MouseWheelGesture(ModifierKeys.Control) { Direction = WheelDirection.Up };
+        public static MouseWheelGesture CtrlDown => new MouseWheelGesture(ModifierKeys.Control) { Direction = WheelDirection.Down };
 
         public MouseWheelGesture() : base(MouseAction.WheelClick)
         {
