@@ -81,7 +81,15 @@ namespace tinyMangaViewer
                 ev.Effects = DragDropEffects.None;
                 foreach (var i in archiveSource)
                 {
-                    if (i.Metadata.Extension.ToLower() == Path.GetExtension(filename).ToLower())
+                    if (string.IsNullOrEmpty(i.Metadata.Extension))
+                    {
+                        if (Directory.Exists(filename))
+                        {
+                            ev.Effects = DragDropEffects.Link;
+                            break;
+                        }
+                    }
+                    else if (i.Metadata.Extension.ToLower() == Path.GetExtension(filename).ToLower())
                     {
                         ev.Effects = DragDropEffects.Link;
                         break;
