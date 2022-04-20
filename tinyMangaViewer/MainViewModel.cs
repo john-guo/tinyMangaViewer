@@ -79,6 +79,8 @@ namespace tinyMangaViewer
                 ev.Handled = true;
                 var filename = ((DataObject)ev.Data).GetFileDropList()[0];
                 ev.Effects = DragDropEffects.None;
+                if (string.IsNullOrWhiteSpace(filename))
+                    return;
                 foreach (var i in archiveSource)
                 {
                     if (string.IsNullOrEmpty(i.Metadata.Extension))
