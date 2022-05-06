@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Diagnostics;
+using OpenCvSharp;
+using OpenCvSharp.WpfExtensions;
 
 namespace tinyMangaViewer
 {
@@ -125,8 +127,12 @@ namespace tinyMangaViewer
                         try
                         {
                             using (var stream = _source.GetStream(_entries[i]))
+                            using (var mat = Mat.FromStream(stream, ImreadModes.Color))
                             {
-                                return BitmapFrame.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
+                                var bitmap = mat.ToBitmapSource();
+                                bitmap.Freeze();
+                                return bitmap;
+                                //return BitmapFrame.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
                             }
                         }
                         catch { return null; }
