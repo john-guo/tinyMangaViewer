@@ -11,7 +11,7 @@ using SharpCompress.Archives.Rar;
 namespace tinyMangaViewer.AddOn
 {
     [Export(typeof(IArchiveSource))]
-    [ExportMetadata(nameof(IArchiveSourceData.Extension), ".rar")]
+    [ExportMetadata(nameof(IArchiveSourceData.Extensions), new[] { ".rar" })]
     public class RarArchiveSource : IArchiveSource
     {
         private RarArchive zip;

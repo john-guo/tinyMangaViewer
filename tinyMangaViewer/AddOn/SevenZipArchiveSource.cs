@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.IO.Compression;
 using System.ComponentModel.Composition;
 using SharpCompress.Archives.SevenZip;
 
 namespace tinyMangaViewer.AddOn
 {
     [Export(typeof(IArchiveSource))]
-    [ExportMetadata(nameof(IArchiveSourceData.Extension), ".7z")]
+    [ExportMetadata(nameof(IArchiveSourceData.Extensions), new[] { ".7z" })]
     public class SevenZipArchiveSource : IArchiveSource
     {
         private SevenZipArchive zip;

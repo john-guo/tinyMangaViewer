@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace tinyMangaViewer.AddOn
 {
     [Export(typeof(IArchiveSource))]
-    [ExportMetadata(nameof(IArchiveSourceData.Extension), "")]
+    [ExportMetadata(nameof(IArchiveSourceData.Extensions), new string[0] )]
     class DirectoryArchiveSource : IArchiveSource
     {
         public Stream GetStream(string filename)

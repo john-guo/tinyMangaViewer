@@ -83,7 +83,7 @@ namespace tinyMangaViewer
                     return;
                 foreach (var i in archiveSource)
                 {
-                    if (string.IsNullOrEmpty(i.Metadata.Extension))
+                    if (i.Metadata.Extensions.Length == 0)
                     {
                         if (Directory.Exists(filename))
                         {
@@ -91,7 +91,7 @@ namespace tinyMangaViewer
                             break;
                         }
                     }
-                    else if (i.Metadata.Extension.ToLower() == Path.GetExtension(filename).ToLower())
+                    else if (i.Metadata.Extensions.Any(ext => ext.ToLower() == Path.GetExtension(filename).ToLower()))
                     {
                         ev.Effects = DragDropEffects.Link;
                         break;
@@ -150,12 +150,12 @@ namespace tinyMangaViewer
             IArchiveSource source = null;
             foreach (var i in archiveSource)
             {
-                if (string.IsNullOrEmpty(i.Metadata.Extension) && Directory.Exists(filename))
+                if (i.Metadata.Extensions.Length == 0 && Directory.Exists(filename))
                 {
                     source = i.Value;
                     break;
                 }
-                if (string.Compare(i.Metadata.Extension, Path.GetExtension(filename), true) == 0)
+                if (i.Metadata.Extensions.Any(ext => string.Compare(ext, Path.GetExtension(filename), true) == 0))
                 {
                     source = i.Value;
                     break;

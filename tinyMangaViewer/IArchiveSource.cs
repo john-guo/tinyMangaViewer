@@ -17,6 +17,6 @@ namespace tinyMangaViewer
 
     public interface IArchiveSourceData
     {
-        string Extension { get; }
+        string[] Extensions { get; }
     }
 }
