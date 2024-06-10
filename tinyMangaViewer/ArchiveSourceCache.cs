@@ -22,7 +22,7 @@ namespace tinyMangaViewer
         private const int _cacheNum = 5;
         private Func<IFilter> _filter;
 
-        public int Count => _entries.Count;
+        public int Count => _entries?.Count ?? 0;
         public string Entry { get; set; }
 
         private ConcurrentDictionary<int, BitmapSource> _cache;

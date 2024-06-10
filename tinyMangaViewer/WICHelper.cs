@@ -24,7 +24,7 @@ namespace tinyMangaViewer
             public string[] FileExtensions;
         }
 
-        public static Lazy<IEnumerable<DecoderInfo>> Info = new Lazy<IEnumerable<DecoderInfo>>(() =>
+        public readonly static Lazy<IEnumerable<DecoderInfo>> Info = new Lazy<IEnumerable<DecoderInfo>>(() =>
             ImageCodecInfo.GetImageDecoders().Select(decoder => new DecoderInfo()
             {
                 FriendlyName = decoder.CodecName,

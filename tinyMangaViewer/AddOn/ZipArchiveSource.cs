@@ -8,7 +8,7 @@ using System.IO;
 namespace tinyMangaViewer.AddOn
 {
     [Export(typeof(IArchiveSource))]
-    [ExportMetadata(nameof(IArchiveSourceData.Extensions), new[] { ".zip" })]
+    [ExportMetadata(nameof(IArchiveSourceData.Extensions), new[] { ".zip", ".cbz" })]
     public class ZipArchiveSource : IArchiveSource
     {
         private ZipArchive zip;

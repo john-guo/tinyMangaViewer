@@ -137,7 +137,7 @@ namespace tinyMangaViewer
             }
             set
             {
-                if (zip == null || value < 0 || value >= zip.Count || value == current)
+                if (zip == null || value < 0 || value >= Count || value == current)
                     return;
                 current = value;
                 Display();
@@ -145,32 +145,48 @@ namespace tinyMangaViewer
             }
         }
 
+        private void Clear()
+        {
+            FileName = "";
+            Count = 0;
+            current = -1;
+            Image = null;
+        }
+
         private void Open(string filename)
         {
             IArchiveSource source = null;
-            foreach (var i in archiveSource)
+            try
             {
-                if (i.Metadata.Extensions.Length == 0 && Directory.Exists(filename))
+                foreach (var i in archiveSource)
                 {
-                    source = i.Value;
-                    break;
+                    if (i.Metadata.Extensions.Length == 0 && Directory.Exists(filename))
+                    {
+                        source = i.Value;
+                        break;
+                    }
+                    if (i.Metadata.Extensions.Any(ext => string.Compare(ext, Path.GetExtension(filename), true) == 0))
+                    {
+                        source = i.Value;
+                        break;
+                    }
                 }
-                if (i.Metadata.Extensions.Any(ext => string.Compare(ext, Path.GetExtension(filename), true) == 0))
-                {
-                    source = i.Value;
-                    break;
-                }    
+                if (source == null)
+                    return;
+
+                zip.SetSource(source);
+                zip.Open(filename);
+
+                FileName = Path.GetFileNameWithoutExtension(filename);
+                Count = zip.Count;
+                current = -1;
+                Current = 0;
             }
-            if (source == null)
-                return;
-
-            zip.SetSource(source);
-            zip.Open(filename);
-
-            FileName = Path.GetFileNameWithoutExtension(filename);
-            Count = zip.Count;
-            current = -1;
-            Current = 0;
+            catch
+            {
+                Clear();
+                MessageBox.Show("No Image");
+            }
         }
 
         private void Display()
