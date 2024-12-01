@@ -154,6 +154,7 @@ namespace tinyMangaViewer
         private ReadOnlyCollection<string> Filter(IEnumerable<string> list)
         {
             var validEntries = list.Where(item =>
+                                Path.GetExtension(item).ToLower().Equals(".webp") ||
                                 WICHelper.Info.Value.Any(decoder =>
                                     decoder.FileExtensions.Any(ext =>
                                         string.Compare(Path.GetExtension(ext), Path.GetExtension(item), true) == 0)));
